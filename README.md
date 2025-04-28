@@ -1,6 +1,6 @@
 Integrantes:
 
-🐉 Irving Geyler Cupul Uc
+🐉 Efrain Manuel May Carrillo
 👾 Joar Honorio Ruiz Peraza
 🐹 Didier Andrey Tec Esquivel
 Asesor:
@@ -8,7 +8,7 @@ Asesor:
 👩‍💻 Dr. José Luis López Martínez
 Fecha de entrega
 
-20/05/2024
+28/04/2025
 Introducción
 En el siempre cambiante mundo del desarrollo web, la eficiencia en la gestión del diseño es fundamental para el éxito de los proyectos. Los programadores enfrentan el desafío constante de crear sitios web atractivos y funcionales que cumplan con las expectativas de los usuarios y los clientes. En este contexto, la necesidad de herramientas especializadas que faciliten la gestión del diseño se vuelve crucial. La aplicación youDesign surge como una respuesta innovadora a esta necesidad, proporcionando una solución digital integral para la gestión de diseño web.
 
