@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from cliente import Cliente
 from db import DatabaseManager   
-from factories import ClienteFactory, ArticuloFactory
+from factories import ClienteFactory
 
 
 # instancia única de singleton
