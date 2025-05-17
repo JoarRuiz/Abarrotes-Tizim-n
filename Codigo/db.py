@@ -11,7 +11,7 @@ class DatabaseManager:
             cls._instance._init(db_name)
         return cls._instance
 
-    # ---- métodos de instancia ----
+    # Metodo de la instancia de singleton
     def _init(self, db_name: str):
         self._path = Path(db_name)
         self.conn = sqlite3.connect(self._path)
@@ -26,7 +26,7 @@ class DatabaseManager:
     def close(self):
         self.conn.close()
 
-    # solo la primera vez
+    # Creacion de tablas
     def _crear_tablas(self):
         cur = self.cursor()
         cur.execute("""

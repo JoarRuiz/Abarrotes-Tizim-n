@@ -1,4 +1,4 @@
-# factories.py
+# factory para las listas de datos
 from cliente import Cliente
 from articulo import Articulo
 

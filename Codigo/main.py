@@ -7,15 +7,21 @@ from factory import ClienteFactory, ArticuloFactory
 from ticket import generar_ticket
 from datetime import datetime
 
-# instancia única para toda la app
+'''
+Instancia de singleton para la base de datos
+
+'''
 db = DatabaseManager()
 
-# ---------- utilidades GUI ----------
+'''Limpieza de interfaces'''
 def limpiar_ventana():
     for w in root.winfo_children():
         w.destroy()
+'''
 
-# ---------- menú principal ----------
+Menu del adminsitrador
+
+'''
 def mostrar_menu():
     limpiar_ventana()
     root.geometry("400x300")
@@ -25,7 +31,11 @@ def mostrar_menu():
     ttk.Button(root, text="Realizar Compra", command=realizar_compra, width=20).pack(pady=10)
     ttk.Button(root, text="Salir", command=root.destroy, width=20).pack(pady=10)
 
-# ---------- registrar cliente ----------
+'''
+
+Registro de Clientes
+
+'''
 def registrar_cliente():
     limpiar_ventana()
     root.geometry("500x550")
@@ -69,7 +79,10 @@ def registrar_cliente():
     ttk.Button(f, text="Cancelar", command=mostrar_menu).grid(row=0, column=1, padx=10)
     ttk.Button(f, text="Ver Lista de Clientes", command=mostrar_clientes).grid(row=0, column=2, padx=10)
 
-# ---------- tabla clientes ----------
+'''
+Tabla de clientes 
+
+'''
 def mostrar_clientes():
     limpiar_ventana()
     root.geometry("1000x500")
@@ -104,7 +117,7 @@ def mostrar_clientes():
 
     tree.pack(side="left", fill=tk.BOTH, expand=True)
 
-    # Llenar datos
+    # Campo de para los datos del cliente 
     cur = db.cursor()
     cur.execute("SELECT * FROM clientes")
     for row in cur.fetchall():
@@ -217,7 +230,10 @@ def mostrar_clientes():
     ttk.Button(btn_frame, text="Editar Cliente", command=editar_cliente).pack(side="left", padx=10)
     ttk.Button(btn_frame, text="Volver al Menú", command=mostrar_menu).pack(side="left", padx=10)
 
-# ---------- registrar artículo ----------
+'''
+registro de los articulos 
+
+'''
 def registrar_articulo():
     limpiar_ventana()
     root.geometry("500x400")
@@ -268,7 +284,11 @@ def registrar_articulo():
     ttk.Button(f, text="Cancelar", command=mostrar_menu).grid(row=0, column=1, padx=10)
     ttk.Button(f, text="Ver Lista de Artículos", command=mostrar_articulos).grid(row=0, column=2, padx=10)
 
-# ---------- tabla artículos ----------
+'''
+
+Tabla con los datos de los articulos
+
+'''
 def mostrar_articulos():
     limpiar_ventana()
     root.geometry("700x500")
@@ -395,7 +415,10 @@ def mostrar_articulos():
     ttk.Button(btn_frame, text="Editar Artículo", command=editar_articulo).pack(side="left", padx=10)
     ttk.Button(btn_frame, text="Volver al Menú", command=mostrar_menu).pack(side="left", padx=10)
 
-# ---------- realizar compra múltiple ----------
+'''
+Metodo de compra de articulos
+
+'''
 def realizar_compra():
     limpiar_ventana()
     root.geometry("600x500")
@@ -500,7 +523,7 @@ def realizar_compra():
     ttk.Button(frame_botones, text="Comprar", command=comprar).pack(side="left", padx=10)
     ttk.Button(frame_botones, text="Cancelar", command=mostrar_menu).pack(side="left", padx=10)
 
-# ---------- arranque ----------
+# Arranque de la  aplicacion
 root = tk.Tk()
 root.title("Abarrotes Tizimín")
 mostrar_menu()
