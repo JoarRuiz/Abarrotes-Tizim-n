@@ -11,5 +11,5 @@ class Cliente:
         self.estado = estado
         self.telefono = telefono
 
-    def direccion_completa(self):
-        return f"{self.calle} #{self.numero}, {self.colonia}, CP {self.cp}, {self.ciudad}, {self.estado}"
+    def __str__(self):
+        return f"{self.nombre} {self.apellido} ({self.telefono})"

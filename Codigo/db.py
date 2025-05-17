@@ -2,7 +2,7 @@ import sqlite3
 from pathlib import Path
 
 class DatabaseManager:
-    # Instancia de singleton
+    """Singleton para manejar UNA sola conexión SQLite."""
     _instance = None
 
     def __new__(cls, db_name: str = "abarrotes.db"):
@@ -11,7 +11,7 @@ class DatabaseManager:
             cls._instance._init(db_name)
         return cls._instance
 
-    # Metodos de la instancia
+    # ---- métodos de instancia ----
     def _init(self, db_name: str):
         self._path = Path(db_name)
         self.conn = sqlite3.connect(self._path)
