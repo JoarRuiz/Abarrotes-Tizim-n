@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 from controller import SistemaAbarrotesController
+from ticket import TicketGenerator, TicketBasicoStrategy, TicketDetalladoStrategy
 
 class SistemaAbarrotesUI:
     def __init__(self, root):
@@ -422,8 +423,24 @@ class SistemaAbarrotesUI:
             self.mostrar_menu()
             return
 
+        # Selector de formato de ticket
+        frame_ticket = ttk.Frame(frame_principal)
+        frame_ticket.pack(fill=tk.X, pady=5)
+        ttk.Label(frame_ticket, text="Formato de Ticket:").pack(side="left")
+        
+        self.ticket_var = tk.StringVar(value="basico")
+        ttk.Radiobutton(frame_ticket, text="Básico", variable=self.ticket_var, value="basico").pack(side="left")
+        ttk.Radiobutton(frame_ticket, text="Detallado", variable=self.ticket_var, value="detallado").pack(side="left", padx=10)
+
         def procesar_compra():
             try:
+                # Configurar estrategia de ticket
+                ticket_gen = TicketGenerator()
+                if self.ticket_var.get() == "detallado":
+                    ticket_gen.set_strategy(TicketDetalladoStrategy())
+                else:
+                    ticket_gen.set_strategy(TicketBasicoStrategy())
+                
                 cliente_idx = self.cliente_combo.current()
                 if cliente_idx == -1:
                     raise ValueError("Selecciona un cliente")

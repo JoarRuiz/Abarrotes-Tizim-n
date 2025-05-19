@@ -1,8 +1,7 @@
 from cliente import Cliente
 from articulo import Articulo
 from factory import ClienteFactory, ArticuloFactory
-from ticket import generar_ticket
-from datetime import datetime
+from ticket import TicketGenerator
 from db import DatabaseManager
 
 class SistemaAbarrotesController:
@@ -61,10 +60,12 @@ class SistemaAbarrotesController:
             total = sum(a.precio_publico * cant for a, cant in articulos)
             
             self._actualizar_inventario(articulos)
-            return generar_ticket(cliente, articulos, total)
+            
+            # Usamos el TicketGenerator
+            ticket = TicketGenerator().generar_ticket(cliente, articulos, total)
+            return ticket
         except Exception as e:
             raise ValueError(f"Error en compra: {str(e)}")
-
     # ---- Métodos privados ----
     def _obtener_cliente_por_id(self, id):
         cur = self.db.cursor()
