@@ -35,7 +35,7 @@ El objetivo principal de este proyecto es desarrollar un programa innovador que 
 
 Además, se integrará una base de datos para almacenar la información de forma persistente, garantizando la seguridad y disponibilidad de los datos. A través de un menú interactivo, el sistema ofrecerá una interacción clara y sencilla, permitiendo al personal de la tienda manejar el programa sin necesidad de conocimientos avanzados. Con esta solución se busca mejorar el manejo de la administración del negocio “Abarrotes Tizimín”, esto optimizara el tiempo dedicado a las tareas administrativas, así mejorando la experiencia tanto del personal como de los clientes.
 
-##Conclusion
+## Conclusion
 
 El proyecto “Abarrotes Tizimín” cumple con el objetivo de ofrecer una herramienta tecnológica útil y accesible para mejorar la gestión de una tienda de abarrotes. A través de sus funcionalidades, permite llevar un control eficiente de clientes, productos e inventario, así como realizar ventas de forma organizada con la generación automática de tickets.
 
