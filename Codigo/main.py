@@ -259,7 +259,7 @@ class SistemaAbarrotesUI:
         frame_botones = ttk.Frame(frame_principal)
         frame_botones.pack(pady=15)
         ttk.Button(frame_botones, text="Guardar Artículo", command=guardar).grid(row=0, column=0, padx=10)
-        ttk.Button(frame_botones, text="Ver Artículos", command=self.mostrar_articulos).grid(row=0, column=2, padx=10)
+        ttk.Button(frame_botones, text="Lista de Artículos", command=self.mostrar_articulos).grid(row=0, column=2, padx=10)
         ttk.Button(frame_botones, text="Cancelar", command=self.mostrar_menu).grid(row=0, column=1, padx=10)
 
     #Ventana donde se muestra la  tabla de articulos
