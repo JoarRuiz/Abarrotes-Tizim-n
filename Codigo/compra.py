@@ -1,5 +1,6 @@
 from datetime import datetime
 
+#Objetos de la compra
 class Compra:
     def __init__(self, cliente, articulos, total):
         self.cliente = cliente

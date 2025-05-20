@@ -1,17 +1,17 @@
 from abc import ABC, abstractmethod
 from datetime import datetime
 
-# Interfaz Strategy
+# Interfaz  para el patron de diseño strategy
 class TicketStrategy(ABC):
     @abstractmethod
     def generar(self, cliente, items_compra, total) -> str:
         pass
 
-# Estrategia concreta 1: Ticket básico
+# Estrategia 1: ticket basico
 class TicketBasicoStrategy(TicketStrategy):
     def generar(self, cliente, items_compra, total) -> str:
         ticket = f"""
-=== TICKET DE COMPRA ===
+======= Ticket de compra =======
 Fecha: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
 Cliente: {cliente.nombre} {cliente.apellido}
 -------------------------"""
@@ -26,18 +26,18 @@ Subtotal: ${subtotal:.2f}
 -------------------------"""
         
         ticket += f"""
-TOTAL: ${total:.2f}
+Total: ${total:.2f}
 ========================="""
         return ticket
 
-# Estrategia concreta 2: Ticket detallado
+# Estrategia 2: Ticket detallado
 class TicketDetalladoStrategy(TicketStrategy):
     def generar(self, cliente, items_compra, total) -> str:
         ticket = f"""
-=== TICKET DETALLADO ===
-Fecha: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+======= TICKET ========
+Fecha de compra: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
 Cliente: {cliente.nombre} {cliente.apellido}
-ID Cliente: {cliente.identificador}
+ID: {cliente.identificador}
 Teléfono: {cliente.telefono}
 -------------------------"""
         
@@ -45,16 +45,16 @@ Teléfono: {cliente.telefono}
             subtotal = articulo.precio_publico * cantidad
             margen = articulo.precio_publico - articulo.precio_proveedor
             ticket += f"""
-Producto: {articulo.nombre} (ID: {articulo.identificador})
+Producto:(ID: {articulo.identificador}) {articulo.nombre} 
 Cantidad: {cantidad}
-P. Unitario: ${articulo.precio_publico:.2f}
-Margen: ${margen:.2f}
+Precio Unitario: ${articulo.precio_publico:.2f}
 Subtotal: ${subtotal:.2f}
 -------------------------"""
         
         ticket += f"""
-TOTAL: ${total:.2f}
-Artículos: {len(items_compra)}
+Cantidad total de artículos: {len(items_compra)}
+Total: ${total:.2f}
+
 ========================="""
         return ticket
 

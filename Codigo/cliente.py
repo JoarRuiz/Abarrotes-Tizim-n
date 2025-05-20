@@ -1,3 +1,4 @@
+#Objetos de la clase cliente
 class Cliente:
     def __init__(self, identificador, nombre, apellido, calle, numero, colonia, cp, ciudad, estado, telefono):
         self.identificador = identificador

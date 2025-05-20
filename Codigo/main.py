@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
-from controller import SistemaAbarrotesController
+from controllers.controller import SistemaAbarrotesController
 from ticket import TicketGenerator, TicketBasicoStrategy, TicketDetalladoStrategy
 
 class SistemaAbarrotesUI:
@@ -10,10 +10,12 @@ class SistemaAbarrotesUI:
         self.controller = SistemaAbarrotesController()
         self.mostrar_menu()
 
+    #Limpiado  de las ventanas
     def limpiar_ventana(self):
         for widget in self.root.winfo_children():
             widget.destroy()
 
+    #Menu de usuario
     def mostrar_menu(self):
         self.limpiar_ventana()
         self.root.geometry("400x300")
@@ -24,6 +26,7 @@ class SistemaAbarrotesUI:
         ttk.Button(self.root, text="Realizar Compra", command=self.realizar_compra, width=20).pack(pady=10)
         ttk.Button(self.root, text="Salir", command=self.root.destroy, width=20).pack(pady=10)
 
+    #Ventana para registrar clientes
     def registrar_cliente(self):
         self.limpiar_ventana()
         self.root.geometry("500x550")
@@ -55,9 +58,10 @@ class SistemaAbarrotesUI:
         frame_botones = ttk.Frame(frame_principal)
         frame_botones.pack(pady=15)
         ttk.Button(frame_botones, text="Guardar Cliente", command=guardar).grid(row=0, column=0, padx=10)
+        ttk.Button(frame_botones, text="Lista de clientes", command=self.mostrar_clientes).grid(row=0, column=2, padx=10)
         ttk.Button(frame_botones, text="Cancelar", command=self.mostrar_menu).grid(row=0, column=1, padx=10)
-        ttk.Button(frame_botones, text="Ver Clientes", command=self.mostrar_clientes).grid(row=0, column=2, padx=10)
 
+    #Ventana donde se muestra la  tabla de clientes 
     def mostrar_clientes(self):
         self.limpiar_ventana()
         self.root.geometry("1000x500")
@@ -127,16 +131,17 @@ class SistemaAbarrotesUI:
         frame_botones.pack(pady=10)
         ttk.Button(frame_botones, text="Editar Cliente", command=editar_cliente).pack(side="left", padx=10)
         ttk.Button(frame_botones, text="Volver al Menú", command=self.mostrar_menu).pack(side="left", padx=10)
-
+    
+    #Ventana para editar los datos de usuario
     def editar_cliente_ventana(self, cliente_id):
         try:
             cliente = self.controller._obtener_cliente_por_id(cliente_id)
             
             top = tk.Toplevel(self.root)
             top.title("Editar Cliente")
-            top.geometry("400x500")
+            top.geometry("300x400")
             
-            # Información no editable
+            # Información no editable del cliente
             ttk.Label(top, text="ID:").grid(row=0, column=0, padx=10, pady=5, sticky="e")
             ttk.Label(top, text=cliente.identificador).grid(row=0, column=1, padx=10, pady=5, sticky="w")
 
@@ -146,7 +151,7 @@ class SistemaAbarrotesUI:
             ttk.Label(top, text="Apellido:").grid(row=2, column=0, padx=10, pady=5, sticky="e")
             ttk.Label(top, text=cliente.apellido).grid(row=2, column=1, padx=10, pady=5, sticky="w")
 
-            # Campos editables
+            # Campos editables del cliente
             campos_editables = [
                 ("Calle", cliente.calle),
                 ("Número", cliente.numero),
@@ -165,6 +170,7 @@ class SistemaAbarrotesUI:
                 e.grid(row=i, column=1, padx=10, pady=5, sticky="w")
                 entries[campo] = e
 
+            #Actualizacion de los datos de un cliente
             def actualizar():
                 try:
                     datos_actualizados = (
@@ -193,14 +199,29 @@ class SistemaAbarrotesUI:
                 except Exception as e:
                     messagebox.showerror("Error", f"No se pudo actualizar: {str(e)}")
 
+            #Eliminar los datos de un cliente
+            def eliminar():
+                if messagebox.askyesno("Confirmar", "¿Eliminar este cliente permanentemente?"):
+                    try:
+                        cur = self.controller.db.cursor()
+                        cur.execute("DELETE FROM clientes WHERE id=?", (cliente_id,))
+                        self.controller.db.commit()
+                        messagebox.showinfo("Éxito", "Cliente eliminado")
+                        top.destroy()
+                        self.mostrar_clientes()
+                    except Exception as e:
+                        messagebox.showerror("Error", f"No se pudo eliminar: {str(e)}")
+
             btn_frame = ttk.Frame(top)
             btn_frame.grid(row=len(campos_editables)+4, column=0, columnspan=2, pady=15)
             ttk.Button(btn_frame, text="Guardar", command=actualizar).pack(side="left", padx=10)
+            ttk.Button(btn_frame, text="Eliminar", command=eliminar).pack(side="left", padx=10)
             ttk.Button(btn_frame, text="Cancelar", command=top.destroy).pack(side="left", padx=10)
             
         except Exception as e:
             messagebox.showerror("Error", f"No se pudo cargar cliente: {str(e)}")
 
+    #ventana de registro de articulos
     def registrar_articulo(self):
         self.limpiar_ventana()
         self.root.geometry("500x400")
@@ -238,9 +259,10 @@ class SistemaAbarrotesUI:
         frame_botones = ttk.Frame(frame_principal)
         frame_botones.pack(pady=15)
         ttk.Button(frame_botones, text="Guardar Artículo", command=guardar).grid(row=0, column=0, padx=10)
-        ttk.Button(frame_botones, text="Cancelar", command=self.mostrar_menu).grid(row=0, column=1, padx=10)
         ttk.Button(frame_botones, text="Ver Artículos", command=self.mostrar_articulos).grid(row=0, column=2, padx=10)
+        ttk.Button(frame_botones, text="Cancelar", command=self.mostrar_menu).grid(row=0, column=1, padx=10)
 
+    #Ventana donde se muestra la  tabla de articulos
     def mostrar_articulos(self):
         self.limpiar_ventana()
         self.root.geometry("700x500")
@@ -302,6 +324,7 @@ class SistemaAbarrotesUI:
         ttk.Button(frame_botones, text="Editar Artículo", command=editar_articulo).pack(side="left", padx=10)
         ttk.Button(frame_botones, text="Volver al Menú", command=self.mostrar_menu).pack(side="left", padx=10)
 
+    #Ventana para editar los datos del articulo
     def editar_articulo_ventana(self, art_id):
         try:
             articulo = self.controller._obtener_articulo_por_id(art_id)
@@ -360,14 +383,32 @@ class SistemaAbarrotesUI:
                 except Exception as e:
                     messagebox.showerror("Error", f"No se pudo actualizar: {e}")
 
+            def eliminar():
+                if messagebox.askyesno("Confirmar", "¿Eliminar este artículo permanentemente?"):
+                    try:
+                        cur = self.controller.db.cursor()
+                        if articulo.existencia > 0:
+                            if not messagebox.askyesno("Advertencia", "Este artículo tiene existencia. ¿Desea eliminarlo de todos modos?"):
+                                return
+                        
+                        cur.execute("DELETE FROM articulos WHERE id=?", (art_id,))
+                        self.controller.db.commit()
+                        messagebox.showinfo("Éxito", "Artículo eliminado")
+                        top.destroy()
+                        self.mostrar_articulos()
+                    except Exception as e:
+                        messagebox.showerror("Error", f"No se pudo eliminar: {str(e)}")
+
             btn_frame = ttk.Frame(top)
             btn_frame.grid(row=5, column=0, columnspan=2, pady=15)
             ttk.Button(btn_frame, text="Guardar", command=actualizar).pack(side="left", padx=10)
+            ttk.Button(btn_frame, text="Eliminar", command=eliminar).pack(side="left", padx=10)
             ttk.Button(btn_frame, text="Cancelar", command=top.destroy).pack(side="left", padx=10)
             
         except Exception as e:
             messagebox.showerror("Error", f"No se pudo cargar artículo: {str(e)}")
 
+    #Ventana de la compra de articulos
     def realizar_compra(self):
         self.limpiar_ventana()
         self.root.geometry("600x500")
@@ -423,18 +464,18 @@ class SistemaAbarrotesUI:
             self.mostrar_menu()
             return
 
-        # Selector de formato de ticket
+        # Seleccion de formato de ticket
         frame_ticket = ttk.Frame(frame_principal)
         frame_ticket.pack(fill=tk.X, pady=5)
-        ttk.Label(frame_ticket, text="Formato de Ticket:").pack(side="left")
+        ttk.Label(frame_ticket, text="Tipo de ticket:").pack(side="left")
         
         self.ticket_var = tk.StringVar(value="basico")
-        ttk.Radiobutton(frame_ticket, text="Básico", variable=self.ticket_var, value="basico").pack(side="left")
+        ttk.Radiobutton(frame_ticket, text="Basico", variable=self.ticket_var, value="basico").pack(side="left")
         ttk.Radiobutton(frame_ticket, text="Detallado", variable=self.ticket_var, value="detallado").pack(side="left", padx=10)
 
         def procesar_compra():
             try:
-                # Configurar estrategia de ticket
+                # Estrategia del ticket
                 ticket_gen = TicketGenerator()
                 if self.ticket_var.get() == "detallado":
                     ticket_gen.set_strategy(TicketDetalladoStrategy())
@@ -471,6 +512,7 @@ class SistemaAbarrotesUI:
         ttk.Button(frame_botones, text="Comprar", command=procesar_compra).pack(side="left", padx=10)
         ttk.Button(frame_botones, text="Cancelar", command=self.mostrar_menu).pack(side="left", padx=10)
 
+#Arranque de la aplicacion
 if __name__ == "__main__":
     root = tk.Tk()
     app = SistemaAbarrotesUI(root)

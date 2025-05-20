@@ -1,3 +1,4 @@
+#Objetos de la clase articulo
 class Articulo:
     def __init__(self, identificador, nombre, precio_publico, precio_proveedor, existencia):
         self.identificador = identificador

@@ -2,7 +2,7 @@ import sqlite3
 from pathlib import Path
 
 class DatabaseManager:
-    """Singleton para manejar UNA sola conexión SQLite."""
+    #Singleton para manejar una sola conexión SQLite
     _instance = None
 
     def __new__(cls, db_name: str = "abarrotes.db"):
@@ -26,9 +26,10 @@ class DatabaseManager:
     def close(self):
         self.conn.close()
 
-    # Creacion de tablas
+    # Creacion de la tabla de cliente y articulo
     def _crear_tablas(self):
         cur = self.cursor()
+        #Cliente
         cur.execute("""
           CREATE TABLE IF NOT EXISTS clientes(
               id TEXT PRIMARY KEY,
@@ -36,6 +37,7 @@ class DatabaseManager:
               calle TEXT, numero TEXT, colonia TEXT,
               cp TEXT, ciudad TEXT, estado TEXT, telefono TEXT)
         """)
+        #Articulo
         cur.execute("""
           CREATE TABLE IF NOT EXISTS articulos(
               id TEXT PRIMARY KEY,
